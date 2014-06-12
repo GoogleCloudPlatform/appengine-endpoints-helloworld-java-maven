@@ -8,7 +8,11 @@ import com.google.api.server.spi.config.ApiNamespace;
 import javax.inject.Named;
 
 /** An endpoint class we are exposing */
-@Api(name = "myApi", version = "v1", namespace = @ApiNamespace(ownerDomain = "helloworld.example.com", ownerName = "helloworld.example.com", packagePath=""))
+@Api(name = "myApi",
+     version = "v1",
+     namespace = @ApiNamespace(ownerDomain = "helloworld.example.com",
+                                ownerName = "helloworld.example.com",
+                                packagePath=""))
 public class YourFirstAPI {
 
     /** A simple endpoint method that takes a name and says Hi back */
