@@ -14,21 +14,28 @@
 
 package com.example.helloworld;
 
+import com.google.api.server.spi.auth.common.User;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.appengine.api.oauth.OAuthRequestException;
+
+import java.io.IOException;
 
 import javax.inject.Named;
 
-//[START all]
+// [START header]
 /** An endpoint class we are exposing */
 @Api(name = "myApi",
     version = "v1",
     namespace = @ApiNamespace(ownerDomain = "helloworld.example.com",
         ownerName = "helloworld.example.com",
         packagePath = ""))
+// [END header]
+
 public class YourFirstAPI {
 
+  // [START hi]
   /** A simple endpoint method that takes a name and says Hi back */
   @ApiMethod(name = "sayHi")
   public MyBean sayHi(@Named("name") String name) {
@@ -37,6 +44,18 @@ public class YourFirstAPI {
 
     return response;
   }
+  //[END hi]
+
+  // [START hi_user]
+  /** A simple endpoint method that takes a name and says Hi back */
+  @ApiMethod(name = "sayHiUser")
+  public MyBean sayHiUser(@Named("name") String name, User user)
+      throws OAuthRequestException, IOException {
+    MyBean response = new MyBean();
+    response.setData("Hi, " + name + "(" + user.getEmail() + ")");
+
+    return response;
+  }
+  //[END hi_user]
 
 }
-//[END all]
