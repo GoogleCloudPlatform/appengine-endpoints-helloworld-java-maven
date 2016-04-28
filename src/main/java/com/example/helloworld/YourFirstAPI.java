@@ -15,9 +15,11 @@
 package com.example.helloworld;
 
 import com.google.api.server.spi.auth.common.User;
+import com.google.api.server.spi.config.AnnotationBoolean;
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.config.ApiResourceProperty;
 import com.google.appengine.api.oauth.OAuthRequestException;
 
 import java.io.IOException;
@@ -48,7 +50,9 @@ public class YourFirstAPI {
 
   // [START hi_user]
   /** A simple endpoint method that takes a name and says Hi back */
-  @ApiMethod(name = "sayHiUser")
+  @ApiMethod(
+      name = "sayHiUser",
+      httpMethod = ApiMethod.HttpMethod.GET)
   public MyBean sayHiUser(@Named("name") String name, User user)
       throws OAuthRequestException, IOException {
     MyBean response = new MyBean();
@@ -58,4 +62,44 @@ public class YourFirstAPI {
   }
   //[END hi_user]
 
+  // [START post]
+  @ApiMethod(
+      name = "mybean.insert",
+      path = "mybean",
+      httpMethod = ApiMethod.HttpMethod.POST
+  )
+  public void insertFoo(MyBean foo) {
+  }
+  // [END post]
+  // [START resources]
+  class Resp {
+    private String foobar = "foobar";
+    private String bin = "bin";
+
+    @ApiResourceProperty
+    private String visible = "nothidden";
+
+    @ApiResourceProperty(ignored = AnnotationBoolean.TRUE)
+    public String getBin() {
+      return bin;
+    }
+
+    public void setBin(String bin) {
+      this.bin = bin;
+    }
+
+    @ApiResourceProperty(name = "baz")
+    public String getFoobar() {
+      return foobar;
+    }
+
+    public void setFoobar(String foobar) {
+      this.foobar = foobar;
+    }
+  }
+
+  public Resp getResp() {
+    return new Resp();
+  }
+  // [END resources]
 }
