@@ -20,6 +20,7 @@ import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.api.server.spi.config.ApiNamespace;
 import com.google.api.server.spi.config.ApiResourceProperty;
+import com.google.api.server.spi.response.NotFoundException;
 import com.google.appengine.api.oauth.OAuthRequestException;
 
 import java.io.IOException;
@@ -102,4 +103,33 @@ public class YourFirstAPI {
     return new Resp();
   }
   // [END resources]
+
+  @SuppressWarnings("unused")
+  // [START lookmeup]
+  /** A simple endpoint method that takes a name and says Hi back */
+  @ApiMethod(
+      name = "lookmeup",
+      httpMethod = ApiMethod.HttpMethod.GET)
+  public MyBean lookMeUp( User user)
+      throws OAuthRequestException, RequestTimeoutException, NotFoundException, IOException {
+    MyBean response = new MyBean();
+
+    // Look me up here...
+    // response = lookup(user);
+    //
+
+    if (response != null) {
+      // [START notfound]
+      throw new NotFoundException(user.getEmail());
+      // [END notfound]
+    }
+    if (true /* did we time out */ ) {
+      // [START timeout]
+      throw new RequestTimeoutException("lookMeUp() timed out");  // custom timeout exception
+      // [END timeout]
+    }
+
+    return response;
+  }
+  // [END lookmeup]
 }
