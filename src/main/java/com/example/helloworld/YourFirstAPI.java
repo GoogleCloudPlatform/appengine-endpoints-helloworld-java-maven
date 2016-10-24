@@ -33,7 +33,9 @@ import javax.inject.Named;
     version = "v1",
     namespace = @ApiNamespace(ownerDomain = "helloworld.example.com",
         ownerName = "helloworld.example.com",
-        packagePath = ""))
+        packagePath = ""),
+    clientIds = {Constants.WEB_CLIENT_ID, Constants.ANDROID_CLIENT_ID, Constants.IOS_CLIENT_ID},
+    audiences = {Constants.ANDROID_AUDIENCE})
 // [END header]
 
 public class YourFirstAPI {
